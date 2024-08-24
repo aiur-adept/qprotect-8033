@@ -1,5 +1,5 @@
 export class QueueProtection {
-    constructor({ windowSize = 100, qDelayRef = 15, alpha = 0.125, beta = 0.25, maxBurst = 150 }) {
+    constructor({ windowSize = 100, qDelayRef = 15, alpha = 0.125, beta = 0.25, maxBurst = 150, queueConcurrency = 1 }) {
         this.requestQueue = [];
         this.latencyWindow = [];
         this.windowSize = windowSize;
@@ -11,6 +11,7 @@ export class QueueProtection {
         this.maxBurst = maxBurst;
         this.burstAllowance = this.maxBurst;
         this.lastRunTime = null;
+        this.queueConcurrency = queueConcurrency;
         console.log(JSON.stringify({
             requestQueue: this.requestQueue,
             latencyWindow: this.latencyWindow,
@@ -100,11 +101,13 @@ export class QueueProtection {
 
     processQueue() {
         const process = () => {
-            if (this.requestQueue.length) {
+            for (let i = 0; i < this.queueConcurrency && this.requestQueue.length; i++) {
                 const [_, next, requestTime] = this.requestQueue.shift();
                 const latency = Date.now() - requestTime;
                 this.pushLatency(latency);
                 next();
+            }
+            if (this.requestQueue.length) {
                 setTimeout(process, 0);
             }
         };

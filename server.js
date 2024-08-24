@@ -3,7 +3,7 @@ import { QueueProtection } from './middleware.js';
 
 const app = express();
 
-const qprotect = new QueueProtection({});
+const qprotect = new QueueProtection({ queueConcurrency: 8 });
 app.use(qprotect.qprotect);
 
 app.get('/', (req, res) => {
