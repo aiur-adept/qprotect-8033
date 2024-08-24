@@ -23,7 +23,8 @@ export class QueueProtection {
             qdelayOld: this.qdelayOld,
             maxBurst: this.maxBurst,
             burstAllowance: this.burstAllowance,
-            lastRunTime: this.lastRunTime
+            lastRunTime: this.lastRunTime,
+            queueConcurrency: this.queueConcurrency
         }, null, 2));
     }
 
