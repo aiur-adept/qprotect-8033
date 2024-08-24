@@ -12,18 +12,12 @@ export class QueueProtection {
         this.burstAllowance = this.maxBurst;
         this.lastRunTime = null;
         this.queueConcurrency = queueConcurrency;
-        console.log(JSON.stringify({
-            requestQueue: this.requestQueue,
-            latencyWindow: this.latencyWindow,
+        console.log("qprotect-8033 config: \n" + JSON.stringify({
             windowSize: this.windowSize,
             qDelayRef: this.qDelayRef,
             alpha: this.alpha,
             beta: this.beta,
-            dropProbability: this.dropProbability,
-            qdelayOld: this.qdelayOld,
             maxBurst: this.maxBurst,
-            burstAllowance: this.burstAllowance,
-            lastRunTime: this.lastRunTime,
             queueConcurrency: this.queueConcurrency
         }, null, 2));
     }
